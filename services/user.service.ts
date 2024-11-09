@@ -132,8 +132,9 @@ export const getAllUser = async (): Promise<UserExport[]> => {
 
 export const getChats = async (userId: string) : Promise<Chat[]>=> {
     try {
+        console.log("chats");
         const chats: Chat[] = await chatModel.find({"users" : userId});
-    
+        
         chats.forEach(async(chat) =>{
             if(chat.isGroupChat == false) {
                 for (const element of chat.users) {
@@ -145,8 +146,9 @@ export const getChats = async (userId: string) : Promise<Chat[]>=> {
         })
 
         return chats;
-    } catch (error) {
-        throw new AppError("Error occured in accessing User", 500);
+    } catch (error ) {
+        
+        throw new AppError(`Error occured in accessing User `, 500);
     }
 }
 
