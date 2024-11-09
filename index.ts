@@ -43,3 +43,7 @@ io.on('connection', (socket) => {
 server.listen(CONFIG.PORT, () => {
   console.log(`Server is running on port ${CONFIG.PORT}`);
 });
+
+
+
+app.use(errorMiddleware);

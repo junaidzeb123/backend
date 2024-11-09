@@ -4,10 +4,11 @@ import { Chat, Message, User } from "../types/entities.interface";
 import { AppError } from "../error/AppError";
 import * as bcrypt from "bcrypt"
 import { BASE_ADDRESS, HASH_THINGS, JWT_THINGS } from "../config/environmentvariable";
-import { sendMail } from "../controllers/sendmail";
+import { sendMail } from "../emailService/sendmail";
 import { generateToken } from "./generateJwt";
 import { UserExport } from "../types/types";
 import MessageModel from '../models/message.model'
+
 
 const generateVerificationLink = async (id: string): Promise<string> => {
     const expiresIn = JWT_THINGS.USERVERIFICATION.EXPIRATION_TIME;
@@ -90,7 +91,8 @@ export const checkEmailAndPassword = async (username: string, password: string):
         if (!user) {
             user = await userModel.findOne({ userName: username });
         }
-
+        console.log(username , password);
+        
         if (!user) return null;
         if (await bcrypt.compare(password, user.password)) {
             return user;
@@ -124,7 +126,7 @@ export const getAllUser = async (): Promise<UserExport[]> => {
         });
         return users;
     } catch (error) {
-        throw new AppError("Error occured in accessing User", 500);
+        throw new AppError("Error occured in accessing User" , 500)
     }
 }
 
