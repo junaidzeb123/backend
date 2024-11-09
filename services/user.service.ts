@@ -210,10 +210,10 @@ export const createChatDocument = async (user1: string, user2: string): Promise<
     try {
         const chat = await chatModel.create({
             isGroupChat : false,
-           users : [ user1,user2]
+            users : [ user1,user2]
         });
         return chat.id;
-    } catch (error) {
+    } catch (error) {        
         throw new AppError("Error in creating new chat.", 500);
     }
 }

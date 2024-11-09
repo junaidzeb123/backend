@@ -5,7 +5,8 @@ const groupSchema: Schema = new mongoose.Schema({
     chatName:
     {
         type: String,
-        unique: true
+        unique: true,
+        sparse : true
     },
     users: [
         {
