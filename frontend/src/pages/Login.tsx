@@ -9,7 +9,6 @@ function Login() {
 
 
   const navigate = useNavigate();
-  // Function to handle form submission
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -32,68 +31,24 @@ function Login() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div data-mdb-input-init className="form-outline mb-4">
-          <input
-            type="email"
-            id="form2Example1"
-            className="form-control"
-            value={userName}
-            onChange={(e) => setuserName(e.target.value)}
-            required
-          />
-          <label className="form-label" htmlFor="form2Example1">Email address</label>
+    <>
+      <div className="grid md:grid-cols-3 gap-6 min-h-[164px] py-8 p-16 bg-gradient-to-r from-blue-700 to-blue-400 font-sans overflow-hidden">
+        <div className="md:col-span-2">
+          <h1 className="text-3xl font-bold text-white">Welcome to ReadymadeUI!</h1>
+          <p className="text-base text-gray-200 mt-4">Best tailwind css readymade UI plateform</p>
+
+          <button type="button"
+            className="py-3 px-6 text-sm font-semibold bg-white text-blue-600 hover:bg-slate-100 rounded-md mt-8">Get
+            Started</button>
         </div>
 
-        <div data-mdb-input-init className="form-outline mb-4">
-          <input
-            type="password"
-            id="form2Example2"
-            className="form-control"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <label className="form-label" htmlFor="form2Example2">Password</label>
+        <div className="relative max-md:hidden">
+          <img src="https://readymadeui.com/readymadeui_banner2.webp" alt="Banner Image"
+            className="w-full right-4 top-[-13px] md:absolute skew-x-[-16deg] rotate-2 object-cover" />
         </div>
+      </div>
+    </>
 
-        <div className="row mb-4">
-          <div className="col d-flex justify-content-center">
-            <div className="form-check">
-              <input className="form-check-input" type="checkbox" value="" id="form2Example31" />
-              <label className="form-check-label" htmlFor="form2Example31"> Remember me </label>
-            </div>
-          </div>
-
-          <div className="col">
-            <a href="#!">Forgot password?</a>
-          </div>
-        </div>
-
-        <button type="submit" className="btn btn-primary btn-block mb-4">Sign in</button>
-
-        <div className="text-center">
-          <p>Not a member? <a href="#!">Register</a></p>
-          <p>or sign up with:</p>
-          <button type="button" className="btn btn-link btn-floating mx-1">
-            <i className="fab fa-facebook-f"></i>
-          </button>
-
-          <button type="button" className="btn btn-link btn-floating mx-1">
-            <i className="fab fa-google"></i>
-          </button>
-
-          <button type="button" className="btn btn-link btn-floating mx-1">
-            <i className="fab fa-twitter"></i>
-          </button>
-
-          <button type="button" className="btn btn-link btn-floating mx-1">
-            <i className="fab fa-github"></i>
-          </button>
-        </div>
-      </form>
-    </div>
   );
 }
 
