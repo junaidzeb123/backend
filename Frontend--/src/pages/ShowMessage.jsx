@@ -1,32 +1,23 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom"; // Import useLocation for state
+import { useLocation } from "react-router"; // Import useLocation for state
 
-interface Message {
-  chat: string;
-  createdAt: string;
-  sender: string;
-  text: string;
-  updatedAt: string;
-  __v: number;
-  _id: string;
-}
 
-const MessagesPage: React.FC = () => {
+const MessagesPage = () => {
   const backendLink = 'http://localhost:3001';
   const location = useLocation();
-  const { id } = location.state as { id: string }; // Extract the id from the state
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [myMessage, setMyMessage] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const { id } = location.state ; // Extract the id from the state
+  const [messages, setMessages] = useState([]);
+  const [myMessage, setMyMessage] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   let token = "";
-  const MessageHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const MessageHandler = async (event) => {
     event.preventDefault();
-    const target = event.target as HTMLInputElement;
+    const target = event.target ;
     setMyMessage(target.value);
   }
-  const sendMessage = async (event: React.FormEvent<HTMLFormElement>) => {
+  const sendMessage = async (event) => {
     event.preventDefault();
     if (!myMessage) {
       return;
@@ -34,7 +25,7 @@ const MessagesPage: React.FC = () => {
     try {
       const s = localStorage.getItem('tokens');
     
-      const parsedToken = JSON.parse(s as string);
+      const parsedToken = JSON.parse(s);
       if (parsedToken && parsedToken.data.accessToken) {
         token = parsedToken.data.accessToken;
       }
@@ -59,7 +50,7 @@ const MessagesPage: React.FC = () => {
       const url = `${backendLink}/user/messages?chatId=${id}`;
       const s = localStorage.getItem('tokens');
     
-      const parsedToken = JSON.parse(s as string);
+      const parsedToken = JSON.parse(s );
       if (parsedToken && parsedToken.data.accessToken) {
         token = parsedToken.data.accessToken;
       }

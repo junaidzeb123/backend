@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {  useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router';
 function ChatUsers() {
  
     const backendLink = 'http://localhost:3001';
-    interface UserExport {
-        email: string,
-        chatName: string,
-        pic: string,
-        _id: string,
-    }
+   
     const navigate = useNavigate();
 
 
-    const [users, setUsers] = useState<UserExport[]>([]);
+    const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const s = localStorage.getItem('tokens');
     let token = "";
-    const  onclick   = async(event : React.MouseEvent<HTMLDivElement>) =>{
-        const clickedDivId = (event.target as HTMLDivElement).id;
+    const  onclick   = async(event) =>{
+        const clickedDivId = (event.target ).id;
         navigate(`/message`, { state: { id: clickedDivId } }); // Pass id via state
           
     }

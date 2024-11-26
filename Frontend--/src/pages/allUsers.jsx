@@ -1,18 +1,11 @@
 // src/components/UserList.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Container, Row, Col, Card } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const UserList = () => {
-    
-    interface UserExport {
-        email: string,
-        userName: string,
-        pic: string,
-        _id: string
-    }
-    const [users, setUsers] = useState<UserExport[]>([]);
+   
+    const [users, setUsers] = useState([]);
     const s = localStorage.getItem('tokens');
     let token = "";
     const navigate = useNavigate();
@@ -47,9 +40,9 @@ const UserList = () => {
     }, []);
 
 
-    const cardHandler = async (event: React.MouseEvent<HTMLDivElement>) => {
+    const cardHandler = async (event ) => {
         const s = localStorage.getItem('tokens');
-        const id = (event.target as HTMLDivElement).id;
+        const id = (event.target ).id;
         // let token = "";
         if (s) {
             try {
