@@ -7,6 +7,7 @@ import MessagesPage from './pages/ShowMessage.jsx';
 import HomePage from './pages/Home.jsx';
 import PrivateComponent from "./Context/PrivateComponent.jsx"
 import { AuthProvider } from './Context/AuthProvider.jsx';
+import Register from './pages/Register.jsx';
 
 const AppRouter = () => {
     return (
@@ -16,6 +17,7 @@ const AppRouter = () => {
                     <Route path="/" element={<HomePage />} />
 
                     <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
 
                     <Route path="/chats"
                         element={<PrivateComponent element={AllChats} />} />
