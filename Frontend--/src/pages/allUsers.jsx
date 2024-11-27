@@ -1,93 +1,47 @@
-// src/components/UserList.js
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+
+import React, { useContext, useEffect, useState } from 'react';
 import AllChatsBox from '../components/AllChatsBox';
+import { useMyChats } from '../apis/UseMyChats';
+import { AuthContext } from '../Context/AuthProvider';
+import LoadingComponents from '../components/LoadingComponent';
+import { useAllUsers } from '../apis/UseAllUsers';
 
-const UserList = () => {
-   
-    const [users, setUsers] = useState([]);
-    const s = localStorage.getItem('tokens');
-    let token = "";
-    const navigate = useNavigate();
-    if (s) {
-        try {
-            const parsedToken = JSON.parse(s);
-            if (parsedToken && parsedToken.data.accessToken) {
-                token = parsedToken.data.accessToken;
-            }
-        } catch (e) {
-            console.error('Error parsing token:', e);
-        }
-    }
+function UserList() {
+
+    const { accessToken } = useContext(AuthContext);
+    const [isLoading, setIsLoading] = useState(true);
+    const [data, setData] = useState([]);
 
 
-    // useEffect(() => {
-    //     // Fetch users from the API
-    //     const fetchUsers = async () => {
-    //         try {
-    //             const response = await axios.get('http://localhost:3001/user/allUser', {
-    //                 headers: {
-    //                     Authorization: `Bearer ${token}`
-    //                 }
-    //             });
-    //             setUsers(response.data);
-    //         } catch (error) {
-    //             console.error('Error fetching users:', error);
-    //         }
-    //     };
+    useEffect(() => {
 
-    //     fetchUsers();
-    // }, []);
+        const res = useAllUsers(accessToken)
+            .then((resData) => {
+                console.log("response", resData);
+                setIsLoading(false);
+                setData(resData);
+            })
+            .catch((err) => {
+                console.log(err, accessToken);
+                setIsLoading(false);
+            });
 
-
-    const cardHandler = async (event ) => {
-        const s = localStorage.getItem('tokens');
-        const id = (event.target ).id;
-        // let token = "";
-        if (s) {
-            try {
-                // Try parsing only if 's' is a valid JSON string
-                const parsedToken = JSON.parse(s);
-                if (parsedToken && parsedToken.data.accessToken) {
-                    token = parsedToken.data.accessToken;
-                }
-            } catch (e) {
-                console.error('Error parsing token:', e);
-            }
-        }
-        console.log(id);
-
-        const url = `http://localhost:3001/user/personalchat?user=${id}`;
-        console.log(token);
-        
-        try {
-            const res = await axios.post(
-                url,
-                { key: "value" }, // Data (body of the request)
-                {
-                  headers: {
-                    Authorization: `Bearer ${token}`
-                  }
-                }
-              );
-              
-              navigate(`/message`, { state: { id: res.data.chatId } }); // Pass id via state
-
-
-
-        } catch (error) {
-            console.log(error);
-
-        }
-    }
+    }, [accessToken])
 
     return (
-       <div>
-            <AllChatsBox/>
 
-       </div>
+        <div className="border-black border-9">
+            <div className=" bg-blue-100 ">
+                {isLoading ? <LoadingComponents /> :
+
+                <AllChatsBox  data = {data} isAllUsersPage = {false}  />
+            }
+
+            </div>
+
+        </div>
     );
-};
+}
+
 
 export default UserList;

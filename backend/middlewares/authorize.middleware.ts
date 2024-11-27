@@ -16,6 +16,7 @@ export const authorize = (req: Request, res: Response, next: NextFunction) => {
     jwt.verify((token as string), secret, (err, decoded) => {
         
         if (err || !decoded || typeof (decoded) == 'string') {
+            console.log(token);
             next(new AppError("Invalid Token", 498))
         }
         else {

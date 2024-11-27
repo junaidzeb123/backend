@@ -1,22 +1,31 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useOnLogin } from '../apis/Uselogin';
+import { useContext } from 'react';
+import { AuthContext } from '../Context/AuthProvider';
+import { ref } from 'yup';
 
 function Login() {
+
+  const navigate = useNavigate();
+
+  const { login } = useContext(AuthContext);
 
   const [userName, setuserName] = useState('');
   const [password, setPassword] = useState('');
   const [passwordInput, setPasswordInput] = useState("password");
-  
+
 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      console.log(useOnLogin);
-      useOnLogin({ userName, password });
+      const {accessToken, refreshToken, user} =  await useOnLogin({ userName, password });
+      await login(user , accessToken, refreshToken);
+      navigate("/chats")      
+
     } catch (error) {
-      alert("error " + error)
+      alert(error.response.data.message);
     }
   };
 

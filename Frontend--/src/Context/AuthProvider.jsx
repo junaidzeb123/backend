@@ -11,10 +11,11 @@ export const AuthProvider = ({ children }) => {
     const login = (user, accessToken, refreshToken) => {
         setAccessToken(accessToken);
         setRefreshToken(refreshToken);
-        setUser(user);
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("accessToken", JSON.stringify(accessToken));
-        localStorage.setItem("refreshToken", JSON.stringify(refreshToken));
+        setUser({ 'user': "user" });
+        localStorage.setItem("user", JSON.stringify({ 'user': "user" }));
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+
     };
 
     const logout = () => {
@@ -38,13 +39,16 @@ export const AuthProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        const storedUser = JSON.parse(localStorage.getItem("user"));
-        const storedAccessToken = localStorage.getItem("accessToken");
-        const storedRefreshToken = localStorage.getItem("refreshToken");
+        ; (async() => {
+            const storedUser = await JSON.parse(localStorage.getItem("user"));
+            const storedAccessToken = localStorage.getItem("accessToken");
+            const storedRefreshToken = localStorage.getItem("refreshToken");
 
-        setUser(storedUser || "loading");
-        setAccessToken(storedAccessToken || "loading");
-        setRefreshToken(storedRefreshToken || "loading");
+            setUser(storedUser);
+            setAccessToken(storedAccessToken);
+            setRefreshToken(storedRefreshToken);
+        })()
+
     }, []);
 
 
