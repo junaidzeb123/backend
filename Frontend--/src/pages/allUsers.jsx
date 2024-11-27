@@ -1,10 +1,10 @@
 
 import React, { useContext, useEffect, useState } from 'react';
 import AllChatsBox from '../components/AllChatsBox';
-import { useMyChats } from '../apis/UseMyChats';
+import { useMyChats } from '../apis/user/UseMyChats';
 import { AuthContext } from '../Context/AuthProvider';
 import LoadingComponents from '../components/LoadingComponent';
-import { useAllUsers } from '../apis/UseAllUsers';
+import { useAllUsers } from '../apis/user/UseAllUsers';
 
 function UserList() {
 

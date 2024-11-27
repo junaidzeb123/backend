@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import { createChatDocument, getAllUser, getChatId, getChats, getMessageByChatId, getUserByUserName } from "../services/user.service";
 import { AppError } from '../error/AppError';
 import { insertMessage } from '../services/chat.service';
-import test from 'node:test';
 
 export const allUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -41,7 +40,7 @@ export const createPersonalChat = async (req: Request, res: Response, next: Next
 export const getMessage = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const chatId = req.body.chatId as string;
-        await(getMessageByChatId(chatId));
+        res.send(await (getMessageByChatId(chatId)));
 
     } catch (error) {
         next(error);

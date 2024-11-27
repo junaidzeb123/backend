@@ -8,6 +8,7 @@ import HomePage from './pages/Home.jsx';
 import PrivateComponent from "./Context/PrivateComponent.jsx"
 import { AuthProvider } from './Context/AuthProvider.jsx';
 import Register from './pages/Register.jsx';
+import ChatPage from './pages/ChatPage.jsx';
 
 const AppRouter = () => {
     return (
@@ -21,8 +22,10 @@ const AppRouter = () => {
 
                     <Route path="/chats"
                         element={<PrivateComponent element={AllChats} />} />
+                        
                     <Route path="/allusers" element={<PrivateComponent element={UserList} />} />
                     <Route path="/message" element={<PrivateComponent element={MessagesPage} />} />
+                    <Route path="/chat" element={<PrivateComponent element={ChatPage} />} />
                 </Routes>
             </Router>
         </AuthProvider>

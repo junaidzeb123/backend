@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import * as Yup from 'yup';
 import ErrorBox from '../components/ErrorBox';
-import { Useregister } from '../apis/Useregister';
+import { Useregister } from '../apis/user/Useregister';
 import { Navigate } from 'react-router-dom';
 
 const schema = Yup.object().shape({

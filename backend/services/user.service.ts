@@ -91,8 +91,8 @@ export const checkEmailAndPassword = async (username: string, password: string):
         if (!user) {
             user = await userModel.findOne({ userName: username });
         }
-        console.log(username , password);
-        
+        console.log(username, password);
+
         if (!user) return null;
         if (await bcrypt.compare(password, user.password)) {
             return user;
@@ -126,28 +126,28 @@ export const getAllUser = async (): Promise<UserExport[]> => {
         });
         return users;
     } catch (error) {
-        throw new AppError("Error occured in accessing User" , 500)
+        throw new AppError("Error occured in accessing User", 500)
     }
 }
 
-export const getChats = async (userId: string) : Promise<Chat[]>=> {
+export const getChats = async (userId: string): Promise<Chat[]> => {
     try {
         console.log("chats");
-        const chats: Chat[] = await chatModel.find({"users" : userId});
-        
-        chats.forEach(async(chat) =>{
-            if(chat.isGroupChat == false) {
+        const chats: Chat[] = await chatModel.find({ "users": userId });
+
+        chats.forEach(async (chat) => {
+            if (chat.isGroupChat == false) {
                 for (const element of chat.users) {
-                    if(element != userId) {
-                        chat.chatName = ( await userModel.findById(element) )?.userName as string;
-                    } 
+                    if (element != userId) {
+                        chat.chatName = (await userModel.findById(element))?.userName as string;
+                    }
                 }
             }
         })
 
         return chats;
-    } catch (error ) {
-        
+    } catch (error) {
+
         throw new AppError(`Error occured in accessing User `, 500);
     }
 }
@@ -197,8 +197,8 @@ export const getChatId = async (user1: string, user2: string): Promise<string | 
     try {
         console.log(user1, user2);
         const chat = await chatModel.findOne({
-            isGroupChat : false,
-            users : { $all : [user1, user2]}
+            isGroupChat: false,
+            users: { $all: [user1, user2] }
         });
         return chat?.id;
     } catch (error) {
@@ -209,21 +209,24 @@ export const getChatId = async (user1: string, user2: string): Promise<string | 
 export const createChatDocument = async (user1: string, user2: string): Promise<string> => {
     try {
         const chat = await chatModel.create({
-            isGroupChat : false,
-            users : [ user1,user2]
+            isGroupChat: false,
+            users: [user1, user2]
         });
         return chat.id;
-    } catch (error) {        
+    } catch (error) {
         throw new AppError("Error in creating new chat.", 500);
     }
 }
 
 
-export const getMessageByChatId = async (chatId : string): Promise<Message[]> => {
+export const getMessageByChatId = async (chatId: string): Promise<Message[]> => {
     try {
         const messages = await MessageModel.find({
-            chat : chatId
-        });
+            Chat: chatId
+        }).sort(
+            { createdAt: 1 }
+        );
+
         return messages;
     } catch (error) {
         throw new AppError("Error in getting messages.", 500);

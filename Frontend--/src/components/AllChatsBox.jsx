@@ -32,7 +32,7 @@ function AllChatsBox({ data, isAllUsersPage = false }) {
             <div className="mt-8 space-y-4">
 
                 {data.map((element) =>
-                    <OneChat key={element.id} name={element.userName} pic={element.pic} />
+                    <OneChat   key={element.id} name={element.userName} pic={element.pic} />
                 )}
 
             </div>
