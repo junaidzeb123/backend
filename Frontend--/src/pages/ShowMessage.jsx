@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router"; // Import useLocation for state
+import { useLocation } from "react-router-dom"; // Import useLocation for state
 
 
 const MessagesPage = () => {

@@ -1,7 +1,8 @@
 // src/components/UserList.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
+import AllChatsBox from '../components/AllChatsBox';
 
 const UserList = () => {
    
@@ -21,23 +22,23 @@ const UserList = () => {
     }
 
 
-    useEffect(() => {
-        // Fetch users from the API
-        const fetchUsers = async () => {
-            try {
-                const response = await axios.get('http://localhost:3001/user/allUser', {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                setUsers(response.data);
-            } catch (error) {
-                console.error('Error fetching users:', error);
-            }
-        };
+    // useEffect(() => {
+    //     // Fetch users from the API
+    //     const fetchUsers = async () => {
+    //         try {
+    //             const response = await axios.get('http://localhost:3001/user/allUser', {
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`
+    //                 }
+    //             });
+    //             setUsers(response.data);
+    //         } catch (error) {
+    //             console.error('Error fetching users:', error);
+    //         }
+    //     };
 
-        fetchUsers();
-    }, []);
+    //     fetchUsers();
+    // }, []);
 
 
     const cardHandler = async (event ) => {
@@ -82,21 +83,10 @@ const UserList = () => {
     }
 
     return (
-        <Container>
-            <Row className="mt-4">
-                {users.map((user, index) => (
-                    <Col md={4} key={index} className="mb-4">
-                        <Card id={user.userName} onClick={cardHandler}>
-                            <Card.Img id={user.userName} variant="top" src={user.pic || 'https://via.placeholder.com/150'} />
-                            <Card.Body id={user.userName}>
-                                <Card.Title id={user.userName}>{user.userName}</Card.Title>
-                                <Card.Text id={user.userName}>{user.email}</Card.Text>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                ))}
-            </Row>
-        </Container>
+       <div>
+            <AllChatsBox/>
+
+       </div>
     );
 };
 

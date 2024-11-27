@@ -1,9 +1,10 @@
 import React from 'react'
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import HeroImage from "../assets/Hero.png";
 function Hero() {
     const navigate = useNavigate();
     return (
+        
         <div>
             <div className="lg:min-h-[560px] bg-blue-100 px-4 sm:px-10">
                 <div className="max-w-7xl w-full mx-auto py-16">

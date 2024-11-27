@@ -1,22 +1,29 @@
-// src/Router.tsx
 import React from 'react';
-import { Route, Routes, BrowserRouter } from 'react-router';
-// import ChatUsers from "";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import AllChats from './pages/AllChats.jsx';
 import Login from './pages/Login';
 import UserList from './pages/allUsers';
-import MessagesPage from './pages/ShowMessage';
-import HomePage from './pages/Home';
+import MessagesPage from './pages/ShowMessage.jsx';
+import HomePage from './pages/Home.jsx';
+import PrivateComponent from "./Context/PrivateComponent.jsx"
+import { AuthProvider } from './Context/AuthProvider.jsx';
 
 const AppRouter = () => {
     return (
-        <Routes>
-            <Route path="/" element={<HomePage />} />
-            {/* <Route path="/chatUser" element={<ChatUsers />} /> */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/allusers" element={<UserList />} />
-            <Route path="/message" element={<MessagesPage />} />
-        </Routes>
+        <AuthProvider>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
 
+                    <Route path="/login" element={<Login />} />
+
+                    <Route path="/chats"
+                        element={<PrivateComponent element={AllChats} />} />
+                    <Route path="/allusers" element={<PrivateComponent element={UserList} />} />
+                    <Route path="/message" element={<PrivateComponent element={MessagesPage} />} />
+                </Routes>
+            </Router>
+         </AuthProvider>
     );
 };
 
