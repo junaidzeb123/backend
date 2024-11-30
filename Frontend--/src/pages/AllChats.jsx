@@ -23,14 +23,13 @@ function AllChats() {
                 console.log(err, accessToken);
                 setIsLoading(false);
             });
-        console.log(res);
 
 
     }, [accessToken])
 
     return (
 
-        <div className="border-black border-9">
+        <div className="border-black border-9 hide-scrollbar">
             <div className=" bg-blue-100 ">
                 {isLoading ? <LoadingComponents /> :
                     <AllChatsBox data={data} isAllUsersPage={false} />}
