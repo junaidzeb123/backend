@@ -31,7 +31,12 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
        
         res.send({
             accessToken,
-            refreshToken
+            refreshToken,
+            user:{
+                email : user.email,
+                id : user.id,
+                userName : user.userName
+            }
         });
 
     } catch (error) {

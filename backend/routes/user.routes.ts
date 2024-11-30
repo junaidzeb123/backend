@@ -14,8 +14,8 @@ const router = express.Router();
 
 router.get("/allUser", authorize, allUser);
 router.get("/userbyName", authorize, userByUserName);
-router.get("/chatUsers", authorize, chatUsers); // getting all the user with which user have chat history
-router.post("/personalchat", authorize, createPersonalChat); // creat a chat between two user
+router.get("/chatUsers", authorize, chatUsers); 
+router.post("/personalchat", authorize, createPersonalChat); 
 router.post("/sendMessage", authorize, sendMessage);
 router.get("/messages", authorize, getMessage);
 

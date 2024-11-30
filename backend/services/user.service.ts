@@ -6,8 +6,11 @@ import * as bcrypt from "bcrypt"
 import { BASE_ADDRESS, HASH_THINGS, JWT_THINGS } from "../config/environmentvariable";
 import { sendMail } from "../emailService/sendmail";
 import { generateToken } from "./generateJwt";
-import { UserExport } from "../types/types";
+import { GetAllChatsInterfacce, UserExport } from "../types/types";
 import MessageModel from '../models/message.model'
+import { prependOnceListener } from "process";
+import { userByUserName } from "../controllers/user.controller";
+import { promiseHooks } from "v8";
 
 
 const generateVerificationLink = async (id: string): Promise<string> => {
@@ -130,105 +133,139 @@ export const getAllUser = async (): Promise<UserExport[]> => {
     }
 }
 
-export const getChats = async (userId: string): Promise<Chat[]> => {
+/**
+ * Chat
+ * Latest Message
+ */
+export const getChats = async (userId: string): Promise<GetAllChatsInterfacce[]> => {
     try {
         console.log("chats");
-        const chats: Chat[] = await chatModel.find({ "users": userId });
+        const chats = await chatModel.find({ "users": userId });
 
-        chats.forEach(async (chat) => {
-            if (chat.isGroupChat == false) {
-                for (const element of chat.users) {
-                    if (element != userId) {
-                        chat.chatName = (await userModel.findById(element))?.userName as string;
+        const res: GetAllChatsInterfacce[] = [];
+        let pre: Promise<Message | null>[] = [];
+
+        // getting the latest message for each chat
+        const names: Promise<{ userName: string } | null>[] = [];
+        chats.forEach((chat) => {
+            pre.push(MessageModel.findById(chat.latestMessage));
+            // getting the username if chat is not group
+            if (!chat.isGroupChat) {
+                for (const ids of chat.users) {
+                    if (ids != userId) {
+                        names.push(userModel.findById(ids, { userName: 1 }))
+                        break;
                     }
                 }
+            } else {
+                names.push(Promise.resolve(null));
             }
-        })
+        });
 
-        return chats;
+
+        const result1 = await (Promise.all(pre));
+        const result2 = await (Promise.all(names));
+
+        for (let i = 0; i < chats.length; i++) {
+            res.push(
+                {
+                    chatName: chats[i]?.chatName as string,
+                    users: chats[i]?.users,
+                    isGroupChat: chats[i]?.isGroupChat,
+                    groupAdmin: chats[i]?.groupAdmin,
+                    latestMessage: chats[i]?.latestMessage,
+                    latestMessageText: result1[i]?.text,
+                    id: chats[i]?._id as unknown as string,
+                    userName: result2[i]?.userName
+                }
+            )
+        }
+
+
+        return res;
     } catch (error) {
-
         throw new AppError(`Error occured in accessing User `, 500);
     }
 }
 
-export const getUsersByName = async (name: string): Promise<UserExport[]> => {
-    try {
-        const res: User[] | null = await userModel.find({
-            $or: [
-                { userName: name },
-                { email: name }
-            ]
-        });
 
-        const users = res.map((user) => {
-            if (user) {
-                return {
-                    email: user.email,
-                    userName: user.userName,
-                    pic: user.pic,
-                    id: user.id,
+    export const getUsersByName = async (name: string): Promise<UserExport[]> => {
+        try {
+            const res: User[] | null = await userModel.find({
+                $or: [
+                    { userName: name },
+                    { email: name }
+                ]
+            });
+
+            const users = res.map((user) => {
+                if (user) {
+                    return {
+                        email: user.email,
+                        userName: user.userName,
+                        pic: user.pic,
+                        id: user.id,
+                    }
                 }
-            }
-        });
-        return users.filter((user) => user !== undefined);
-    } catch (error) {
-        throw new AppError("An error have occured in accessing user.", 500);
-    }
-}
-
-export const getUserByUserName = async (username: string): Promise<UserExport | undefined> => {
-    try {
-        const user = await userModel.findOne({
-            userName: username
-        });
-        if (!user) return undefined;
-        return {
-            userName: user.userName,
-            email: user.email,
-            pic: user.pic,
-            id: user.id
+            });
+            return users.filter((user) => user !== undefined);
+        } catch (error) {
+            throw new AppError("An error have occured in accessing user.", 500);
         }
-    } catch (error) {
-        throw new AppError("Error in accessing user.", 500);
     }
-}
-export const getChatId = async (user1: string, user2: string): Promise<string | null> => {
-    try {
-        console.log(user1, user2);
-        const chat = await chatModel.findOne({
-            isGroupChat: false,
-            users: { $all: [user1, user2] }
-        });
-        return chat?.id;
-    } catch (error) {
-        throw new AppError("Error in fetching chat info.", 500);
+
+    export const getUserByUserName = async (username: string): Promise<UserExport | undefined> => {
+        try {
+            const user = await userModel.findOne({
+                userName: username
+            });
+            if (!user) return undefined;
+            return {
+                userName: user.userName,
+                email: user.email,
+                pic: user.pic,
+                id: user.id
+            }
+        } catch (error) {
+            throw new AppError("Error in accessing user.", 500);
+        }
     }
-}
-
-export const createChatDocument = async (user1: string, user2: string): Promise<string> => {
-    try {
-        const chat = await chatModel.create({
-            isGroupChat: false,
-            users: [user1, user2]
-        });
-        return chat.id;
-    } catch (error) {
-        throw new AppError("Error in creating new chat.", 500);
+    export const getChatId = async (user1: string, user2: string): Promise<string | null> => {
+        try {
+            console.log(user1, user2);
+            const chat = await chatModel.findOne({
+                isGroupChat: false,
+                users: { $all: [user1, user2] }
+            });
+            return chat?.id;
+        } catch (error) {
+            throw new AppError("Error in fetching chat info.", 500);
+        }
     }
-}
 
-
-export const getMessageByChatId = async (chatId: string): Promise<Message[]> => {
-    try {
-        const messages = await MessageModel.find({
-            Chat: chatId
-        }).sort(
-            { createdAt: 1 }
-        );
-
-        return messages;
-    } catch (error) {
-        throw new AppError("Error in getting messages.", 500);
+    export const createChatDocument = async (user1: string, user2: string): Promise<string> => {
+        try {
+            const chat = await chatModel.create({
+                isGroupChat: false,
+                users: [user1, user2]
+            });
+            return chat.id;
+        } catch (error) {
+            throw new AppError("Error in creating new chat.", 500);
+        }
     }
-}
+
+
+    export const getMessageByChatId = async (chatId: string): Promise<Message[]> => {
+        try {
+            const messages = await MessageModel.find({
+                Chat: chatId
+            }).sort(
+                { createdAt: 1 }
+            );
+
+            return messages;
+        } catch (error) {
+            throw new AppError("Error in getting messages.", 500);
+        }
+    }

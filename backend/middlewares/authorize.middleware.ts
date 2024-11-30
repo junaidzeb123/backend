@@ -10,14 +10,16 @@ export const authorize = (req: Request, res: Response, next: NextFunction) => {
     let token = req.headers["authorization"];
     token = token?.split(" ")[1];
     if (!token) {
-        next(new AppError("No Token found", 401))
+        res.status(401).send("No Token found");
+        return;
     }
-
+    
     jwt.verify((token as string), secret, (err, decoded) => {
         
         if (err || !decoded || typeof (decoded) == 'string') {
             console.log(token);
-            next(new AppError("Invalid Token", 498))
+            res.status(498).send("Invalid Token");
+            return;
         }
         else {
             const user: JwtPayload = { id: decoded.id };

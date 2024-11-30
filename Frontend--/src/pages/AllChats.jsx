@@ -23,6 +23,8 @@ function AllChats() {
                 console.log(err, accessToken);
                 setIsLoading(false);
             });
+        console.log(res);
+
 
     }, [accessToken])
 
@@ -31,9 +33,7 @@ function AllChats() {
         <div className="border-black border-9">
             <div className=" bg-blue-100 ">
                 {isLoading ? <LoadingComponents /> :
-
-
-                    <AllChatsBox data={data} isAllUsersPage={true} />}
+                    <AllChatsBox data={data} isAllUsersPage={false} />}
             </div>
 
         </div>

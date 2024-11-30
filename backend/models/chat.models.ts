@@ -6,7 +6,7 @@ const groupSchema: Schema = new mongoose.Schema({
     {
         type: String,
         unique: true,
-        sparse : true
+        sparse: true
     },
     users: [
         {
@@ -14,17 +14,17 @@ const groupSchema: Schema = new mongoose.Schema({
             ref: "User"
         }
     ],
-    isGroupChat : {
-        type : Boolean,
-        require : true
+    isGroupChat: {
+        type: Boolean,
+        require: true
     },
-    groupAdmin : {
-        type : Schema.Types.ObjectId,
-        require : 'User'
+    groupAdmin: {
+        type: Schema.Types.ObjectId,
+        require: 'User'
     },
-    latestMessage : {
-         type : Schema.Types.ObjectId,
-        require : 'Message'
+    latestMessage: {
+        type: Schema.Types.ObjectId,
+        require: 'Message'
     }
 
 }, { timestamps: true });

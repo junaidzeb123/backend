@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from '../Context/AuthProvider';
 function Navbar() {
     const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
     return (
         <div>
 
@@ -11,11 +13,9 @@ function Navbar() {
                     <a href="#" onClick={(e) => e.preventDefault()}>
                         <img src={logo} alt="logo" className="w-40" />
                     </a>
-
-
                     <div className='flex ml-auto'>
                         <button
-                            onClick={() => navigate("/login")}
+                            onClick={() => user ? navigate("/chats") : navigate("/login")}
                             className='bg-blue-100 hover:bg-blue-200 flex items-center transition-all font-semibold rounded-md px-5 py-3'>Get
                             started
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-[14px] fill-current ml-2" viewBox="0 0 492.004 492.004">

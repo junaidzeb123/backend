@@ -1,16 +1,18 @@
 import React from 'react'
 import OneChat from './OneChat'
+import { useNavigate } from 'react-router-dom';
 
 function AllChatsBox({ data, isAllUsersPage = false }) {
+    const navigate  = useNavigate();
     return (
         <div
             className="bg-white shadow-[0_4px_12px_-5px_rgba(0,0,0,0.4)] px-6 py-8 w-full max-w-2xl rounded-lg font-[sans-serif] overflow-hidden mx-auto mt-4">
             <div className="flex ">
 
-                {isAllUsersPage ?
+                {!isAllUsersPage ?
                     <>
                         <h1 className="text-2xl font-bold flex-1 text-gray-800">Your Previous Chats</h1>
-                        <button
+                        <button onClick={()=> navigate("/allusers")}
                             className='bg-black hover:bg-[#222] text-white flex items-center transition-all font-semibold rounded-md px-5 py-4'>Start A New
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-[14px] fill-current ml-2"
                                 viewBox="0 0 492.004 492.004">
@@ -30,9 +32,21 @@ function AllChatsBox({ data, isAllUsersPage = false }) {
 
 
             <div className="mt-8 space-y-4">
-
                 {data.map((element) =>
-                    <OneChat   key={element.id} name={element.userName} pic={element.pic} />
+                    isAllUsersPage ?
+                        <OneChat
+                         key={element.id}
+                          name={element.userName}
+                           pic={element.pic}
+                           isAllUsersPage = {isAllUsersPage} />
+                        :
+                        <OneChat
+                            key={element.id}
+                            name={element.isGroupChat ? element.chatName : element.userName}
+                            pic={element.pic}
+                            latestMessage={element.latestMessageText}
+                            isAllUsersPage = {isAllUsersPage}
+                        />
                 )}
 
             </div>

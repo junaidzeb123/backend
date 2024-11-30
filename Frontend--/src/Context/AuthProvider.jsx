@@ -11,8 +11,8 @@ export const AuthProvider = ({ children }) => {
     const login = (user, accessToken, refreshToken) => {
         setAccessToken(accessToken);
         setRefreshToken(refreshToken);
-        setUser({ 'user': "user" });
-        localStorage.setItem("user", JSON.stringify({ 'user': "user" }));
+        setUser({ 'user': user });
+        localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
 

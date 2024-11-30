@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import HeroImage from "../assets/Hero.png";
+import { AuthContext } from '../Context/AuthProvider';
 function Hero() {
     const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
     return (
-        
+
         <div>
             <div className="lg:min-h-[560px] bg-blue-100 px-4 sm:px-10">
                 <div className="max-w-7xl w-full mx-auto py-16">
@@ -17,7 +19,7 @@ function Hero() {
                             <p className="text-base leading-relaxed">In a world where staying connected matters, ChatSphere offers a dynamic and modern messaging platform that keeps you in touch with the people that matter most, effortlessly and securely.</p>
                             <div className="flex flex-wrap gap-y-4 gap-x-8 mt-8">
                                 <button
-                                    onClick={() => navigate("/login")}
+                                    onClick={() => user ? navigate("/chats") : navigate("/login")}
                                     className='bg-black hover:bg-[#222] text-white flex items-center transition-all font-semibold rounded-md px-5 py-4'>Get
                                     started
                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-[14px] fill-current ml-2"
