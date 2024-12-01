@@ -96,7 +96,7 @@ function ChattingArea({ chatId, username, pic }) {
     };
 
     return (
-        <div className="w-2/3 flex flex-col bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="w-[60%] flex flex-col bg-white rounded-2xl shadow-lg overflow-hidden">
             <div className="bg-white p-6 flex items-center border-b-2 border-gray-200">
                 <img src={pic || 'https://readymadeui.com/profile_2.webp'} className="w-14 h-14 rounded-full mr-4 shadow-md" alt="User" />
                 <div>

@@ -5,7 +5,7 @@ const groupSchema: Schema = new mongoose.Schema({
     chatName:
     {
         type: String,
-        unique: true,
+        // unique: true,
         sparse: true
     },
     users: [
@@ -25,6 +25,9 @@ const groupSchema: Schema = new mongoose.Schema({
     latestMessage: {
         type: Schema.Types.ObjectId,
         require: 'Message'
+    },
+    pic: {
+        type: String,
     }
 
 }, { timestamps: true });

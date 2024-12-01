@@ -62,7 +62,7 @@ function SideBarChats({ setchatId, setUserName, setPic }) {
             {isLoading ? <LoadingComponents /> :
                 <div className="hide-scrollbar  mt-8 space-y-4 hide-scrollbar">
                     {data.map((element) =>
-                        <div onClick={() => {
+                        <div key={element.id} onClick={() => {
                             onClickHandler(
                                 element.id,
                                 element.isGroupChat ? element.chatName : element.userName,

@@ -11,6 +11,7 @@ function UserList() {
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState([]);
 
+    const [model, isModel] = useState(false);
 
     useEffect(() => {
 
@@ -35,7 +36,6 @@ function UserList() {
                     <AllChatsBox data={data} />
                 }
             </div>
-
         </div>
     );
 }

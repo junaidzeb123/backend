@@ -12,7 +12,6 @@ function OneChat({ name, pic, latestMessage, isAllUsersPage, onClick, sideBar = 
     const { accessToken } = useContext(AuthContext);
 
     const onClickHanlder = async () => {
-        console.log("ok just clicking wannt see you later");
 
         try {
             const res = await useCreateChat(accessToken, name);
@@ -40,11 +39,11 @@ function OneChat({ name, pic, latestMessage, isAllUsersPage, onClick, sideBar = 
                 }
 
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 fill-gray-500" viewBox="0 0 32 32">
+            {/* <svg xmlns="http://www.w3.org/2000/svg" className="w-5 fill-gray-500" viewBox="0 0 32 32">
                 <path
                     d="M13 16c0 1.654 1.346 3 3 3s3-1.346 3-3-1.346-3-3-3-3 1.346-3 3zm0 10c0 1.654 1.346 3 3 3s3-1.346 3-3-1.346-3-3-3-3 1.346-3 3zm0-20c0 1.654 1.346 3 3 3s3-1.346 3-3-1.346-3-3-3-3 1.346-3 3z"
                     data-original="#000000" />
-            </svg>
+            </svg> */}
         </div>
 
     )

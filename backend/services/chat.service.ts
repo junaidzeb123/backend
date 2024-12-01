@@ -4,18 +4,18 @@ import { AppError } from "../error/AppError";
 import mongoose from "mongoose";
 import { Chat } from "../types/entities.interface";
 
-export const createGroupChat = async (chatName: string, users: string[], groupAdmin: string): Promise<void> => {
+export const createGroupChat = async (chatName: string, users: string[], groupAdmin: string, pic : string): Promise<Chat> => {
     try {
-        console.log(users);
         console.log("users: " , users.map((user) =>  new mongoose.Types.ObjectId(user)) );
         
         const chat = await chatModels.create({
             chatName,
-            users: [...users],
+            users: [...users , groupAdmin],
             isGroupChat: true,
-            groupAdmin
-        });
-        
+            groupAdmin,
+            pic
+        });        
+        return chat;
     } catch (error) {
         throw new AppError(`An error have occured while creating group chat , ${error} `, 500);
     }
