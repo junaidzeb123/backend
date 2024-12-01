@@ -12,7 +12,8 @@ function Message({ message, username, sender }) {
                 </div>
             </div>
             <div
-                className={`flex flex-col p-3 rounded-lg shadow-[0_4px_12px_-5px_rgba(0,0,0,0.4)] ${sender ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-800'
+                className={`flex flex-col p-3 rounded-lg shadow-[0_4px_12px_-5px_rgba(0,0,0,0.4)]
+                     ${user.id == sender ? 'bg-blue-600 text-white' : 'bg-gray-400 text-black-800'
                     }`}
             >
                 <span className="text-sm font-semibold">{username}</span>

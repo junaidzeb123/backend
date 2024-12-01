@@ -3,7 +3,9 @@ import { useCreateChat } from '../apis/chat/UseCreateChat';
 import { AuthContext } from '../Context/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 
-function OneChat({ name, pic, latestMessage, isAllUsersPage }) {
+function OneChat({ name, pic, latestMessage, isAllUsersPage, onClick, sideBar = false }) {
+
+    console.log("onCliec->", onClick);
 
     const { user } = useContext(AuthContext);
 
@@ -11,6 +13,7 @@ function OneChat({ name, pic, latestMessage, isAllUsersPage }) {
     const { accessToken } = useContext(AuthContext);
 
     const onClickHanlder = async () => {
+        console.log("ok just clicking wannt see you later");
 
         try {
             const res = await useCreateChat(accessToken, name);
@@ -27,7 +30,7 @@ function OneChat({ name, pic, latestMessage, isAllUsersPage }) {
         }
     }
     return (
-        <div onClick={onClickHanlder}
+        <div onClick={!sideBar ? onClickHanlder : onClick}
             className="bg-blue-200 flex flex-wrap items-center cursor-pointer shadow-[0_2px_6px_-1px_rgba(0,0,0,0.3)] rounded-lg w-full p-4">
             <img src='https://readymadeui.com/profile_2.webp' className="w-8 h-8 rounded-full" />
             <div className="ml-4 flex-1">

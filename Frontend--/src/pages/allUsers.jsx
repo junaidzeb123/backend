@@ -33,7 +33,7 @@ function UserList() {
         <div className="border-black border-9">
             <div className=" bg-blue-100 ">
                 {isLoading ? <LoadingComponents /> :
-                    <AllChatsBox data={data} isAllUsersPage={true} />
+                    <AllChatsBox data={data} />
                 }
             </div>
 

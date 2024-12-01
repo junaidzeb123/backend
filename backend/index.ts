@@ -9,6 +9,7 @@ import './config/moongose';
 import { CONFIG } from './config/environmentvariable';
 import { string } from 'zod';
 import userModel from './models/user.model';
+import { send } from 'node:process';
 
 const app = express();
 const server = createServer(app);
@@ -72,6 +73,25 @@ io.on('connection', (socket) => {
       }
     } catch (error) {
       console.log(error);
+    }
+  });
+
+  socket.on("typing", (data) => {
+    const { chat, sender } = data;
+    if(chat && sender)
+    for (const user of chat.chat.users) {
+      if (user === sender) continue;
+      socket.in(user).emit('typing', { sender });
+    }
+  });
+
+
+  socket.on("typingStop", (data) => {
+    const { chat, sender } = data;
+    if(chat && sender) 
+    for (const user of chat.chat.users) {
+      if (user === sender) continue;
+      socket.in(user).emit('typingStop', { sender });
     }
   })
 

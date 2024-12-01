@@ -41,7 +41,9 @@ export const createPersonalChat = async (req: Request, res: Response, next: Next
 }
 export const getMessage = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const chatId = req.body.chatId as string;
+        console.log(req.query);
+
+        const chatId = req.query.chatId as string;
         return res.send(await (getMessageByChatId(chatId)));
 
     } catch (error) {
