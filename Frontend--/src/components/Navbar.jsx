@@ -15,7 +15,7 @@ function Navbar() {
                     </a>
                     <div className='flex ml-auto'>
                         <button
-                            onClick={() => user ? navigate("/chats") : navigate("/login")}
+                            onClick={() => user ? navigate("/chat") : navigate("/login")}
                             className='bg-blue-100 hover:bg-blue-200 flex items-center transition-all font-semibold rounded-md px-5 py-3'>Get
                             started
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-[14px] fill-current ml-2" viewBox="0 0 492.004 492.004">

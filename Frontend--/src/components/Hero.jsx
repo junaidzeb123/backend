@@ -19,7 +19,7 @@ function Hero() {
                             <p className="text-base leading-relaxed">In a world where staying connected matters, ChatSphere offers a dynamic and modern messaging platform that keeps you in touch with the people that matter most, effortlessly and securely.</p>
                             <div className="flex flex-wrap gap-y-4 gap-x-8 mt-8">
                                 <button
-                                    onClick={() => user ? navigate("/chats") : navigate("/login")}
+                                    onClick={() => user ? navigate("/chat") : navigate("/login")}
                                     className='bg-black hover:bg-[#222] text-white flex items-center transition-all font-semibold rounded-md px-5 py-4'>Get
                                     started
                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-[14px] fill-current ml-2"

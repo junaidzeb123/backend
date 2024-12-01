@@ -6,7 +6,7 @@ import * as bcrypt from "bcrypt"
 import { BASE_ADDRESS, HASH_THINGS, JWT_THINGS } from "../config/environmentvariable";
 import { sendMail } from "../emailService/sendmail";
 import { generateToken } from "./generateJwt";
-import { GetAllChatsInterfacce, UserExport } from "../types/types";
+import { GetAllChatsInterfacce, getMessageWithPIc, UserExport } from "../types/types";
 import MessageModel from '../models/message.model'
 import { prependOnceListener } from "process";
 import { userByUserName } from "../controllers/user.controller";
@@ -146,14 +146,14 @@ export const getChats = async (userId: string): Promise<GetAllChatsInterfacce[]>
         let pre: Promise<Message | null>[] = [];
 
         // getting the latest message for each chat
-        const names: Promise<{ userName: string } | null>[] = [];
+        const names: Promise<{ userName: string, pic: string } | null>[] = [];
         chats.forEach((chat) => {
             pre.push(MessageModel.findById(chat.latestMessage));
             // getting the username if chat is not group
             if (!chat.isGroupChat) {
                 for (const ids of chat.users) {
                     if (ids != userId) {
-                        names.push(userModel.findById(ids, { userName: 1 }))
+                        names.push(userModel.findById(ids, { userName: 1, pic: 1 }))
                         break;
                     }
                 }
@@ -176,7 +176,8 @@ export const getChats = async (userId: string): Promise<GetAllChatsInterfacce[]>
                     latestMessage: chats[i]?.latestMessage,
                     latestMessageText: result1[i]?.text,
                     id: chats[i]?._id as unknown as string,
-                    userName: result2[i]?.userName
+                    userName: result2[i]?.userName,
+                    pic: result2[i]?.pic,
                 }
             )
         }
@@ -259,14 +260,37 @@ export const createChatDocument = async (user1: string, user2: string): Promise<
 export const getMessageByChatId = async (chatId: string): Promise<Message[]> => {
     try {
         console.log(chatId);
-        
-        const messages = await MessageModel.find({
+
+        const messages : Message[] = await MessageModel.find({
             chat: chatId
         }).sort(
             { createdAt: 1 }
         );
 
-        return messages;
+
+        const res: Promise<{ pic: string } | null>[] = [];
+        for (let i = 0; i < messages.length; i++) {
+            res.push(userModel.findById(messages[i].sender, { pic: 1 }))
+        }
+
+        const result = await Promise.all(res);
+        const response : getMessageWithPIc[] = [];
+        console.log("result" , result);
+        
+        for (let i = 0; i < messages.length; i++) {   
+            response.push({ 
+                pic :  result[i]?.pic ,
+                sender : messages[i].sender,
+                text : messages[i].text,
+                chat : messages[i].chat
+            });
+        }
+
+        console.log("Messges" , response);
+        
+
+
+        return response;
     } catch (error) {
         throw new AppError("Error in getting messages.", 500);
     }

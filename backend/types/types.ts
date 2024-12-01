@@ -20,5 +20,14 @@ export interface GetAllChatsInterfacce {
     groupAdmin: string,
     latestMessage: string,
     latestMessageText: string | undefined,
-    userName?: string | null
+    userName?: string | null,
+    pic?: string | null,
 }
+
+
+export interface getMessageWithPIc {
+        text: string,
+        sender: string,
+        chat: string
+        pic?:string
+    }

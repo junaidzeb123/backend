@@ -1,14 +1,19 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../Context/AuthProvider';
 
-function Message({ message, username, sender }) {
+function Message({ message, username, sender, pic }) {
     const { user } = useContext(AuthContext);
 
     return (
         <div className={`flex ${user.id == sender ? 'flex-row-reverse' : 'flex-row'} items-center w-full max-w-xl my-2`}>
             <div className="mr-3">
                 <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-white font-semibold">
-                    {username ? username.charAt(0).toUpperCase() : ''}
+                    {/* {username ? username.charAt(0).toUpperCase() : ''} */}
+                    {
+                        pic && pic != "abc" ?
+                            <img src={pic} className='w-8 h-8 rounded-full' /> :
+                            null
+                    }
                 </div>
             </div>
             <div

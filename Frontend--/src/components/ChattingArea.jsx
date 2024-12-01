@@ -5,7 +5,6 @@ import { io } from 'socket.io-client';
 import { useGetChatMessages } from '../apis/chat/UseGetChatMessages';
 import { AuthContext } from '../Context/AuthProvider';
 import { useSendMessage } from "../apis/chat/UseSendMessage"
-import { flushSync } from 'react-dom';
 
 const URL = "http://localhost:3001";
 var socket;
@@ -33,6 +32,8 @@ function ChattingArea({ chatId, username, pic }) {
             if (chatId && accessToken !== 'loading') {
                 try {
                     const res = await useGetChatMessages(accessToken, chatId);
+                    console.log(res);
+                    
                     setPreMessages(res);
                     setIsLoading(false);
                     scrollToBottom();
@@ -111,7 +112,7 @@ function ChattingArea({ chatId, username, pic }) {
                 ) : (
                     <>
                         {preMessages.map((msg, index) => (
-                            <Message key={index} message={msg.text} sender={msg.sender} isUser={msg.sender === user.id} />
+                            <Message pic={msg.pic} key={index}  message={msg.text} sender={msg.sender} isUser={msg.sender === user.id} />
                         ))}
                         <div ref={messagesEndRef} />
                     </>

@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import * as Yup from 'yup';
 import ErrorBox from '../components/ErrorBox';
 import { Useregister } from '../apis/user/Useregister';
-import { Navigate } from 'react-router-dom';
+import LoadingComponents from "../components/LoadingComponent";
 
 const schema = Yup.object().shape({
     userName: Yup.string().required('User Name  is required'),
@@ -28,6 +28,8 @@ function Register() {
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
+    const [isLoading, setIsLoading] = useState(false);
+
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -37,10 +39,8 @@ function Register() {
     };
 
     const onSubmitHandler = async () => {
-        const data = new FormData();
-        data.append("file", profilePic);
-        data.append("upload_preset", "chatAppp");
-        data.append("cloud_name", "demcb2nh0");
+
+        // data.append("cloud_name", "demcb2nh0");
 
         schema.validate(
             {
@@ -50,13 +50,29 @@ function Register() {
                 pic: profilePic
             }).then(async (validData) => {
                 console.log(validData);
-                validData.pic = "abdc";
                 try {
+                    const data = new FormData();
+                    data.append("file", profilePic);
+                    data.append("upload_preset", "chatAppp");
+
+                    setIsLoading(true);
+                    const url = await axios.post("https://api.cloudinary.com/v1_1/demcb2nh0/image/upload", data)
+                    setIsLoading(false);
+                    console.log("uploaded to cloundinary", url, data);
+                    validData.pic = url.data.url;
+
+                    setIsLoading(true);
                     const res = await Useregister(validData);
+                    setIsLoading(false);
                     alert("Registered Successfully");
                     navigate("/login")
                 } catch (error) {
-                    alert(error.response.data.message)
+                    if (error instanceof AxiosError)
+                        alert(error.response.data.message)
+                    else
+                        alert(error)
+                    console.log(error);
+
                 }
             }).catch((error) => {
                 console.log(error);
@@ -90,6 +106,11 @@ function Register() {
 
     return (
         <div>
+            {
+                isLoading ?
+                <LoadingComponents/> :
+            
+
             <div className=" font-[sans-serif] bg-white md:h-screen">
                 <div className=" bg-blue-100 grid md:grid-cols-2 items-center gap-8 h-full">
                     <div className="max-md:order-1 p-4 bg-gray-50 h-full">
@@ -175,6 +196,7 @@ function Register() {
                     </div>
                 </div>
             </div>
+            }
         </div>
     )
 }
