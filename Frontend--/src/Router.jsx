@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
-import UserList from './pages/AllUsers.jsx';
-import HomePage from './pages/Home.jsx';
-import PrivateComponent from "./Context/PrivateComponent.jsx"
-import { AuthProvider } from './Context/AuthProvider.jsx';
-import Register from './pages/Register.jsx';
-import ChatPage from './pages/ChatPage.jsx';
+import UserList from './pages/AllUsers';
+import HomePage from './pages/Home';
+import PrivateComponent from "./Context/PrivateComponent"
+import { AuthProvider } from './Context/AuthProvider';
+import Register from './pages/Register';
+import ChatPage from './pages/ChatPage';
 
 const AppRouter = () => {
     return (
