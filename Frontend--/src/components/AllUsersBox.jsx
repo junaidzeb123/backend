@@ -40,6 +40,14 @@ function AllChatsBox({ data }) {
                                 data-original="#000000" />
                         </svg>
                     </button>
+
+                    <button onClick={() => {
+                        navigate("/chat")
+                    }}
+                        className='bg-black hover:bg-[#222] text-white flex items-center  mx-3
+                    transition-all font-semibold rounded-md px-5 py-4'>My Chats
+                    </button>
+
                 </div>
                 <div className="flex flex-wrap items-center gap-4">
                 </div>

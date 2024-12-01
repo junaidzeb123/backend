@@ -67,9 +67,11 @@ io.on('connection', (socket) => {
     try {
 
       const { chat, message, sender } = data;
+      console.log("chaye", chat, message);
+
       for (const user of chat.chat.users) {
         if (user === sender) continue;
-        socket.in(user).emit('receive_message', { sender, text: message });
+        socket.in(user).emit('receive_message', { sender, text: message, chatId: chat.chat._id });
       }
     } catch (error) {
       console.log(error);
@@ -78,21 +80,21 @@ io.on('connection', (socket) => {
 
   socket.on("typing", (data) => {
     const { chat, sender } = data;
-    if(chat && sender)
-    for (const user of chat.chat.users) {
-      if (user === sender) continue;
-      socket.in(user).emit('typing', { sender });
-    }
+    if (chat && sender)
+      for (const user of chat.chat.users) {
+        if (user === sender) continue;
+        socket.in(user).emit('typing', { sender });
+      }
   });
 
 
   socket.on("typingStop", (data) => {
     const { chat, sender } = data;
-    if(chat && sender) 
-    for (const user of chat.chat.users) {
-      if (user === sender) continue;
-      socket.in(user).emit('typingStop', { sender });
-    }
+    if (chat && sender)
+      for (const user of chat.chat.users) {
+        if (user === sender) continue;
+        socket.in(user).emit('typingStop', { sender });
+      }
   })
 
   socket.on('disconnect', () => {

@@ -38,12 +38,14 @@ function SideBarChats({ setchatId, setUserName, setPic }) {
     }
 
 
+
     const navigate = useNavigate();
     return (
         <div
-            className="hide-scrollbar bg-white px-6 py-8 w-full max-w-2xl rounded-lg font-[sans-serif] overflow-hidden mx-auto mt-4">
+            className={`w-[30%] hide-scrollbar bg-white px-6 py-8 w-full max-w-2xl rounded-lg
+             font-[sans-serif] overflow-hidden mx-auto mt-4`}>
             <div className="flex ">
-                <h2 className="text-xl font-bold flex-1 text-gray-800">My Chats</h2>
+                <h2 className="text-lg  py-3  font-bold flex-1 text-gray-800">My Chats</h2>
                 <button onClick={() => navigate("/allusers")}
                     className='bg-black hover:bg-[#222] text-white flex items-center transition-all font-semibold rounded-md px-5 py-4'>New Chat
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-[8px] fill-current ml-2"

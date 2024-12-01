@@ -7,6 +7,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState("loading");
     const [accessToken, setAccessToken] = useState("loading");
     const [refreshToken, setRefreshToken] = useState("loading");
+    const [notification, setNotification] = useState(false)
 
     const login = (user, accessToken, refreshToken) => {
         setAccessToken(accessToken);
@@ -35,11 +36,13 @@ export const AuthProvider = ({ children }) => {
         refreshToken,
         setRefreshToken,
         login,
-        logout
+        logout,
+        notification,
+        setNotification
     };
 
     useEffect(() => {
-        ; (async() => {
+        ; (async () => {
             const storedUser = await JSON.parse(localStorage.getItem("user"));
             const storedAccessToken = localStorage.getItem("accessToken");
             const storedRefreshToken = localStorage.getItem("refreshToken");

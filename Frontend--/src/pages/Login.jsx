@@ -22,7 +22,7 @@ function Login() {
     try {
       const {accessToken, refreshToken, user} =  await useOnLogin({ userName, password });
       await login(user , accessToken, refreshToken);
-      navigate("/chats")      
+      navigate("/chat")      
 
     } catch (error) {
       alert(error.response.data.message);

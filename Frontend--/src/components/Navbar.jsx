@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../Context/AuthProvider';
 function Navbar() {
     const navigate = useNavigate();
-    const { user } = useContext(AuthContext);
+    const { user, logout } = useContext(AuthContext);
     return (
         <div>
 
@@ -24,6 +24,17 @@ function Navbar() {
                                     data-original="#000000" />
                             </svg>
                         </button>
+
+                        {
+                            user ?
+                                <button
+                                    onClick={() => logout()}
+                                    className='bg-blue-100 hover:bg-blue-200 flex items-center transition-all font-semibold rounded-md px-5 py-3 mx-3'>
+                                    Logout
+                                </button>
+                                : null
+
+                        }
                     </div>
                 </div>
             </header>
