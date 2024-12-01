@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const Useregister = async (data) => {
-    const URL = "http://localhost:3001/auth/register";
+    const URL = `${import.meta.env.VITE_BACKEND}/auth/register`;
 
 
     // const URL = "https://res.cloudinary.com/v1_1/demcb2nh0/image/upload/";

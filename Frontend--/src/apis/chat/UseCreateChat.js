@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const useCreateChat = async (accessToken,username) => {
     try {
-        const URL = `http://localhost:3001/user/personalchat?user=${username}`;
+        const URL = `${import.meta.env.VITE_BACKEND}/user/personalchat?user=${username}`;
         const response = await axios.post(URL,{},{
                 headers: {
                     Authorization: `Bearer ${accessToken}`,

@@ -7,7 +7,7 @@ import { AuthContext } from '../Context/AuthProvider';
 import { useSendMessage } from "../apis/chat/UseSendMessage"
 import { none } from '@cloudinary/url-gen/qualifiers/fontHinting';
 
-const URL = "http://localhost:3001";
+const URL = "${import.meta.env.VITE_BACKEND}";
 var socket;
 
 function ChattingArea({ chatId, username, pic }) {

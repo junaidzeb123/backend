@@ -3,7 +3,7 @@ import axios from "axios";
 export const useSendMessage = async (accessToken, chatId, text) => {
     try {
         
-        const URL = `http://localhost:3001/user/sendMessage?chatId=${chatId}`;
+        const URL = `${import.meta.env.VITE_BACKEND}/user/sendMessage?chatId=${chatId}`;
         const response = await axios.post(URL, {
             text
         }, {
