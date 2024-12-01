@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 function OneChat({ name, pic, latestMessage, isAllUsersPage, onClick, sideBar = false }) {
 
-    console.log("onCliec->", onClick);
 
     const { user } = useContext(AuthContext);
 

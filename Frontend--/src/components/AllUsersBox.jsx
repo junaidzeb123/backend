@@ -1,5 +1,5 @@
 import React from 'react'
-import OneChat from './OneChat'
+import OneChat from './OneUser'
 import { useNavigate } from 'react-router-dom';
 
 function AllChatsBox({ data }) {

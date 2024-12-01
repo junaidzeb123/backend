@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import OneChat from './OneChat'
+import OneChat from './OneUser'
 import { useNavigate } from 'react-router-dom';
 import { useMyChats } from '../apis/user/UseMyChats';
 import { AuthContext } from '../Context/AuthProvider';
