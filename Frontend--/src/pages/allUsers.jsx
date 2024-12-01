@@ -5,7 +5,7 @@ import { AuthContext } from '../Context/AuthProvider';
 import LoadingComponents from '../components/LoadingComponent';
 import { useAllUsers } from '../apis/user/UseAllUsers';
 
-function UserList() {
+function AllUsers() {
 
     const { accessToken } = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(true);
@@ -41,4 +41,4 @@ function UserList() {
 }
 
 
-export default UserList;
+export default AllUsers;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
-import UserList from './pages/AllUsers';
+import AllUsers from './pages/AllUsers';
 import HomePage from './pages/Home';
 import PrivateComponent from "./Context/PrivateComponent"
 import { AuthProvider } from './Context/AuthProvider';
@@ -20,7 +20,7 @@ const AppRouter = () => {
 
 
 
-                    <Route path="/allusers" element={<PrivateComponent element={UserList} />} />
+                    <Route path="/allusers" element={<PrivateComponent element={AllUsers} />} />
                     <Route path="/chat" element={<PrivateComponent element={ChatPage} />} />
                 </Routes>
             </Router>
