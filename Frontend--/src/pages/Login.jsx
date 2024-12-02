@@ -4,6 +4,7 @@ import { useOnLogin } from '../apis/user/Uselogin';
 import { useContext } from 'react';
 import { AuthContext } from '../Context/AuthProvider';
 import { ref } from 'yup';
+import { AxiosError } from 'axios';
 
 function Login() {
 
@@ -20,12 +21,16 @@ function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const {accessToken, refreshToken, user} =  await useOnLogin({ userName, password });
-      await login(user , accessToken, refreshToken);
-      navigate("/chat")      
+      const { accessToken, refreshToken, user,pic } = await useOnLogin({ userName, password });
+      await login(user, accessToken, refreshToken ,pic);
+      navigate("/chat")
 
     } catch (error) {
-      alert(error.response.data.message);
+      if (error instanceof AxiosError)
+        alert(error.response.data.message);
+      else alert(error)
+      console.log(error);
+
     }
   };
 

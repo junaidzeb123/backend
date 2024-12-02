@@ -151,21 +151,25 @@ export const getChats = async (userId: string): Promise<GetAllChatsInterfacce[]>
             pre.push(MessageModel.findById(chat.latestMessage));
             // getting the username if chat is not group
             if (!chat.isGroupChat) {
+                let get = false;
                 for (const ids of chat.users) {
                     if (ids != userId) {
-                        names.push(userModel.findById(ids, { userName: 1, pic: 1 }))
+                        names.push(userModel.findById(ids, { userName: 1, pic: 1 })) ;
+                        get  = true;
                         break;
                     }
                 }
+                if(!get) names.push(Promise.resolve(null));
             } else {
                 names.push(Promise.resolve(null));
             }
         });
-
+        
 
         const result1 = await (Promise.all(pre));
         const result2 = await (Promise.all(names));
-
+        console.log( result1 ,result2);
+        
         for (let i = 0; i < chats.length; i++) {
             res.push(
                 {

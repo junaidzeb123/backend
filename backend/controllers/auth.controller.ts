@@ -35,7 +35,8 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
             user:{
                 email : user.email,
                 id : user.id,
-                userName : user.userName
+                userName : user.userName,
+                pic : user.pic
             }
         });
 

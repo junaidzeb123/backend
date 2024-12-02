@@ -7,7 +7,7 @@ import { AuthContext } from '../Context/AuthProvider';
 import { useSendMessage } from "../apis/chat/UseSendMessage"
 import { none } from '@cloudinary/url-gen/qualifiers/fontHinting';
 
-const URL = "${import.meta.env.VITE_BACKEND}";
+const URL = `${import.meta.env.VITE_BACKEND}`;
 var socket;
 
 function ChattingArea({ chatId, username, pic }) {
@@ -52,11 +52,9 @@ function ChattingArea({ chatId, username, pic }) {
     useEffect(() => {
         if (socket && isSocketConnected) {
             socket.on("receive_message", (msg) => {
-                if (chatId || chatId != msg.chatId) {
-                    setNotification(true)
-                } else {
-                    setPreMessages((prevMessages) => [...prevMessages, msg]);
-                }
+                console.log("receiving", msg);
+
+                setPreMessages((prevMessages) => [...prevMessages, msg]);
             });
 
             socket.on("typing", () => {
@@ -94,8 +92,10 @@ function ChattingArea({ chatId, username, pic }) {
         try {
             const res = await useSendMessage(accessToken, chatId, message);
             setRes(res)
-            socket.emit("new_message", { chat: res, message, sender: user.id });
-            setPreMessages((preMessages) => [...preMessages, { text: message, sender: user.id }]);
+            socket.emit("new_message", { chat: res, message, sender: user.id, pic: user.pic });
+            console.log(user);
+
+            setPreMessages((preMessages) => [...preMessages, { text: message, sender: user.id, pic: user.pic }]);
             setMessage("");
             setTyping(false);
         } catch (error) {

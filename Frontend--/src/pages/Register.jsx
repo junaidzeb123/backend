@@ -72,6 +72,7 @@ function Register() {
                     else
                         alert(error)
                     console.log(error);
+                    setIsLoading(false)
 
                 }
             }).catch((error) => {

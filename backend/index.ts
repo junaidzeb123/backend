@@ -66,12 +66,13 @@ io.on('connection', (socket) => {
   socket.on('new_message', (data) => {
     try {
 
-      const { chat, message, sender } = data;
-      console.log("chaye", chat, message);
-
+      const { chat, message, sender, pic } = data;
+      
+      console.log("msg receive->" ,pic);
+      
       for (const user of chat.chat.users) {
         if (user === sender) continue;
-        socket.in(user).emit('receive_message', { sender, text: message, chatId: chat.chat._id });
+        socket.in(user).emit('receive_message', { sender, text: message, chatId: chat.chat._id, pic });
       }
     } catch (error) {
       console.log(error);
