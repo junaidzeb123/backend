@@ -18,6 +18,8 @@ function ChatPage() {
                     <div className='h-full overflow-auto hide-scrollbar rounded-2xl shadow-lg'>
                         <SideBarChats
                             setchatId={setchatId}
+                            
+                            
                             setUserName={setUserName}
                             setPic={setPic} />
 
